@@ -1,0 +1,11 @@
+<div *ngIf="meal; else loading">
+  <h2>{{ meal.strMeal }}</h2>
+  <img [src]="meal.strMealThumb" [alt]="meal.strMeal" width="300" />
+  <p><strong>Category:</strong> {{ meal.strCategory }}</p>
+  <p><strong>Area:</strong> {{ meal.strArea }}</p>
+  <p>{{ meal.strInstructions }}</p>
+</div>
+
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>
