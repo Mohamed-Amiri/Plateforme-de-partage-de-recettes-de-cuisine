@@ -1,38 +1,45 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';  // Required for ngModel two-way binding
-import { HttpClientModule } from '@angular/common/http';  // Required for HTTP requests
-import { RouterModule } from '@angular/router';  // Required for routing
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import {ActivatedRoute, RouterModule } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
 import { Meal } from '../../meal/meal.module';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-recipe-list',
-  standalone: true,  // This makes the component standalone
-  imports: [FormsModule, HttpClientModule, RouterModule, CommonModule],  // Import needed modules for this component
+  standalone: true,
+  imports: [FormsModule, HttpClientModule, RouterModule, CommonModule],
   templateUrl: './recipe-list.component.html',
   styleUrls: ['./recipe-list.component.css']
 })
 export class RecipeListComponent {
-  searchQuery: string = '';
   meals: Meal[] = [];
+  filteredMeals: Meal[] = [];
 
-  constructor(private recipeService: RecipeService) { }
+  constructor(private recipeService: RecipeService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.recipeService.getRecipes().subscribe(
-      (response: { meals: Meal[]; }) => {
+      (response: { meals: Meal[] }) => {
         this.meals = response.meals;
+        this.filterMeals(); // initial filtering
       },
-      (error: any) => {
-        console.error('Error fetching meals:', error);
-      }
+      (error: any) => console.error('Error fetching meals:', error)
     );
+
+    // Get query params on load or change
+    this.route.queryParams.subscribe(params => {
+      this.filterMeals(params['search'] || '', params['category'] || 'All');
+    });
   }
 
-  get filteredMeals() {
-    return this.meals.filter(meal =>
-      meal.strMeal.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
+  filterMeals(search: string = '', category: string = 'All') {
+    const query = search.toLowerCase();
+    this.filteredMeals = this.meals.filter(meal => {
+      const matchSearch = meal.strMeal.toLowerCase().includes(query) || meal.strChef?.toLowerCase().includes(query);
+      const matchCategory = category === 'All' || meal.strCategory === category;
+      return matchSearch && matchCategory;
+    });
   }
 }

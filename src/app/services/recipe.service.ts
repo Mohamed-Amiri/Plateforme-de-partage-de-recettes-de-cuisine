@@ -14,6 +14,13 @@ export class RecipeService {
     return this.http.get<any>(`${this.apiUrl}search.php?s=`);
   }
 
+  getCategories(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}categories.php`);
+  }
+  getRandomMeal(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}random.php`);
+  }
+
   getMealById(id: string | null): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}lookup.php?i=${id}`);
   }

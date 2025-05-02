@@ -5,6 +5,7 @@
   <p><strong>Area:</strong> {{ meal.strArea }}</p>
   <p>{{ meal.strInstructions }}</p>
 </div>
+<app-rating-system [mealId]="meal.idMeal"></app-rating-system>
 
 <ng-template #loading>
   <p>Loading...</p>

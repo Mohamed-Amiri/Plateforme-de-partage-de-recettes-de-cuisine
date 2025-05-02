@@ -1,1 +1,21 @@
-<p>rating-system works!</p>
+<div class="rating-form">
+  <h4>Rate this recipe</h4>
+  <div class="stars">
+    <span *ngFor="let star of [1,2,3,4,5]" (click)="rating = star">
+      <i [ngClass]="{'selected': star <= rating}">&#9733;</i>
+    </span>
+  </div>
+
+  <textarea [(ngModel)]="comment" placeholder="Leave a comment..."></textarea>
+  <button (click)="submitReview()">Submit</button>
+</div>
+
+<div class="reviews">
+  <h4>Reviews</h4>
+  <div *ngFor="let review of reviews">
+    <p><strong>{{ review.rating }} ★</strong> - {{ review.comment }}</p>
+    <small>{{ review.date | date:'short' }}</small>
+    <hr />
+  </div>
+</div>
+

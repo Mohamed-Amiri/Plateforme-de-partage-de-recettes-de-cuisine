@@ -1,1 +1,11 @@
-<p>home works!</p>
+<h2>Recettes Tendance</h2>
+<div class="trending-recipes">
+  <div *ngFor="let meal of trendingMeals" class="card">
+    <a [routerLink]="['/recipes', meal.idMeal]">
+      <img [src]="meal.strMealThumb" [alt]="meal.strMeal" />
+      <h3>{{ meal.strMeal }}</h3>
+      <p><strong>Catégorie :</strong> {{ meal.strCategory }}</p>
+    </a>
+  </div>
+</div>
+

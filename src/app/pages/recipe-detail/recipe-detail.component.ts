@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'; // Import for routing
 import { RecipeService } from '../../services/recipe.service'; // Importing the service
 import { CommonModule } from '@angular/common';
+import {RatingSystemComponent} from '../../components/rating-system/rating-system.component';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -10,7 +11,8 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./recipe-detail.component.css'],
   imports: [
 
-    CommonModule
+    CommonModule,
+    RatingSystemComponent
   ]
 })
 export class RecipeDetailComponent {
