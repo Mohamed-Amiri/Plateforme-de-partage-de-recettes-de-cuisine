@@ -1,19 +1,209 @@
-.trending-recipes {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+.trending-container {
+  padding: 2.5rem;
+  background: linear-gradient(135deg, #f9f9f9, #f0f0f0);
+  border-radius: 20px;
+  margin: 1rem;
 }
 
-.card {
-  background: #fff;
-  padding: 0.5rem;
+.title {
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  color: #2a2a2a;
+  position: relative;
+  display: inline-block;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background-color: #ff6b6b;
+  border-radius: 2px;
+}
+
+.horizontal-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 1.8rem;
+  padding-bottom: 1.5rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+/* Custom scrollbar */
+.horizontal-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
-  text-align: center;
 }
 
-.card img {
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.trend-card {
+  min-width: 280px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.4s ease;
+  scroll-snap-align: start;
+  overflow: hidden;
+  position: relative;
+}
+
+.trend-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.trend-card img {
   width: 100%;
-  border-radius: 8px;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.trend-card:hover img {
+  transform: scale(1.05);
+}
+
+.card-info {
+  padding: 1.2rem;
+  text-align: center;
+  position: relative;
+}
+
+.card-info h3 {
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.trend-card:hover .card-info h3 {
+  color: #ff6b6b;
+}
+
+/* Add category badge */
+.category-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 107, 107, 0.9);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.meal-origin {
+  font-size: 0.9rem;
+  color: #777;
+  margin-top: 0.2rem;
+}
+
+/* Placeholder styling for loading state */
+.placeholder-card {
+  pointer-events: none;
+}
+
+.placeholder-img {
+  height: 180px;
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+.placeholder-text {
+  height: 20px;
+  width: 80%;
+  margin: 10px auto;
+  border-radius: 4px;
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.no-results {
+  width: 100%;
+  text-align: center;
+  padding: 2rem;
+  color: #777;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .trending-container {
+    padding: 1.8rem;
+    margin: 0.5rem;
+  }
+
+  .title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .trend-card {
+    min-width: 220px;
+  }
+
+  .trend-card img {
+    height: 150px;
+  }
+}
+
+/* Animation for card entry */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.trend-card {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.trend-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.trend-card:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.trend-card:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.trend-card:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+.trend-card:nth-child(6) {
+  animation-delay: 0.5s;
 }

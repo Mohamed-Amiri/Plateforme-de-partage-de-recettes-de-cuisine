@@ -1,10 +1,16 @@
+.rating-form {
+  margin-top: 1rem;
+}
+
 .stars {
   cursor: pointer;
+  margin-bottom: 0.5rem;
 }
 
 .stars i {
   font-size: 24px;
   color: gray;
+  margin-right: 4px;
 }
 
 .stars i.selected {
@@ -15,9 +21,24 @@ textarea {
   width: 100%;
   min-height: 60px;
   margin-top: 0.5rem;
+  padding: 0.5rem;
+  resize: vertical;
 }
 
 button {
   margin-top: 0.5rem;
   padding: 0.5rem 1rem;
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #e68900;
+}
+
+.reviews {
+  margin-top: 1rem;
 }

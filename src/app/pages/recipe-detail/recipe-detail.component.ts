@@ -1,37 +1,50 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router'; // Import for routing
-import { RecipeService } from '../../services/recipe.service'; // Importing the service
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import {RatingSystemComponent} from '../../components/rating-system/rating-system.component';
+import { RatingSystemComponent } from '../../components/rating-system/rating-system.component';
 
 @Component({
   selector: 'app-recipe-detail',
-  standalone: true,  // Mark this component as standalone
   templateUrl: './recipe-detail.component.html',
-  styleUrls: ['./recipe-detail.component.css'],
-  imports: [
-
-    CommonModule,
-    RatingSystemComponent
-  ]
+  imports: [CommonModule,  RatingSystemComponent],
+  styleUrls: ['./recipe-detail.component.css']
 })
-export class RecipeDetailComponent {
-  meal: any;
+export class RecipeDetailComponent implements OnInit {
+  recipe: any;
+  ingredients: { ingredient: string; measure: string }[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private recipeService: RecipeService
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
-    const mealId = this.route.snapshot.paramMap.get('id');
-    this.recipeService.getMealById(mealId).subscribe(
-      (mealData) => {
-        this.meal = mealData.meals[0]; // assuming the data structure is like { meals: [...] }
-      },
-      (error) => {
-        console.error('Error fetching meal data', error);
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (id) {
+      this.http.get<any>(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`).subscribe(response => {
+        if (response.meals && response.meals.length > 0) {
+          this.recipe = response.meals[0];
+          this.extractIngredients();
+        }
+      });
+    }
+  }
+
+  extractIngredients(): void {
+    for (let i = 1; i <= 20; i++) {
+      const ingredient = this.recipe[`strIngredient${i}`];
+      const measure = this.recipe[`strMeasure${i}`];
+
+      if (ingredient && ingredient.trim() !== '') {
+        this.ingredients.push({ ingredient, measure });
       }
-    );
+    }
+  }
+
+  getYoutubeEmbedUrl(url: string): string {
+    const videoId = url.split('v=')[1];
+    return `https://www.youtube.com/embed/${videoId}`;
   }
 }

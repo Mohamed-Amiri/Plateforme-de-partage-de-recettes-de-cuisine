@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,8 @@ export class NavbarComponent implements OnInit {
   searchQuery: string = '';
   selectedCategory: string = 'All';
   categories: string[] = [];
+  isMobileMenuOpen: boolean = false;
+  isScrolled: boolean = false;
 
   constructor(private router: Router, private recipeService: RecipeService) {}
 
@@ -27,6 +29,11 @@ export class NavbarComponent implements OnInit {
     );
   }
 
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    this.isScrolled = window.scrollY > 50;
+  }
+
   search() {
     this.router.navigate(['/recipes'], {
       queryParams: {
@@ -34,5 +41,10 @@ export class NavbarComponent implements OnInit {
         category: this.selectedCategory
       }
     });
+    this.isMobileMenuOpen = false; // Ferme le menu après recherche sur mobile
+  }
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 }

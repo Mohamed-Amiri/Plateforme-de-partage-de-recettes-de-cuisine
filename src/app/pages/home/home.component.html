@@ -1,11 +1,31 @@
-<h2>Recettes Tendance</h2>
-<div class="trending-recipes">
-  <div *ngFor="let meal of trendingMeals" class="card">
-    <a [routerLink]="['/recipes', meal.idMeal]">
-      <img [src]="meal.strMealThumb" [alt]="meal.strMeal" />
-      <h3>{{ meal.strMeal }}</h3>
-      <p><strong>Catégorie :</strong> {{ meal.strCategory }}</p>
-    </a>
-  </div>
-</div>
+<section class="trending-container">
+  <h2 class="title">🔥 Recettes Tendance</h2>
 
+  <div class="horizontal-scroll">
+    <div *ngFor="let meal of trendingMeals; trackBy: trackByMealId" class="trend-card" [class.loading]="!meal">
+      <a [routerLink]="['/recipes', meal.idMeal]">
+        <div class="category-badge" *ngIf="meal.strCategory">{{ meal.strCategory }}</div>
+        <img [src]="meal.strMealThumb" [alt]="meal.strMeal" loading="lazy" />
+        <div class="card-info">
+          <h3>{{ meal.strMeal }}</h3>
+          <p *ngIf="meal.strArea" class="meal-origin">{{ meal.strArea }} cuisine</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Loading placeholders -->
+    <ng-container *ngIf="isLoading">
+      <div *ngFor="let i of [1,2,3,4]" class="trend-card placeholder-card">
+        <div class="placeholder-img"></div>
+        <div class="card-info">
+          <div class="placeholder-text"></div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- No results message -->
+    <div *ngIf="trendingMeals.length === 0 && !isLoading" class="no-results">
+      <p>Aucune recette disponible pour le moment.</p>
+    </div>
+  </div>
+</section>

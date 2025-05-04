@@ -1,12 +1,69 @@
-<nav class="navbar">
-  <div class="logo">Recettes Délices</div>
+<nav class="navbar" [ngClass]="{'scrolled': isScrolled}">
+  <div class="container">
+    <div class="logo">
+      <a routerLink="/" aria-label="Accueil">Recettes Délices</a>
+    </div>
 
-  <div class="search-bar">
-    <input type="text" [(ngModel)]="searchQuery" placeholder="Rechercher par recette ou chef" />
-    <select [(ngModel)]="selectedCategory">
-      <option value="All">Toutes les catégories</option>
-      <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-    </select>
-    <button (click)="search()">Chercher</button>
+    <div class="nav-links desktop-only">
+      <a routerLink="/recipes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Recettes</a>
+      <a routerLink="/categories" routerLinkActive="active">Catégories</a>
+      <a routerLink="/favorites" routerLinkActive="active">Favoris</a>
+      <a routerLink="/about" routerLinkActive="active">À propos</a>
+    </div>
+
+    <div class="search-bar desktop-only">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Rechercher une recette..."
+        aria-label="Rechercher une recette"
+      />
+
+      <select [(ngModel)]="selectedCategory" aria-label="Sélectionner une catégorie">
+        <option value="All">Toutes les catégories</option>
+        <option *ngFor="let category of categories" [value]="category">
+          {{ category }}
+        </option>
+      </select>
+
+      <button (click)="search()" aria-label="Rechercher">
+        <i class="fas fa-search" aria-hidden="true"></i> Chercher
+      </button>
+    </div>
+
+    <!-- Bouton de menu mobile -->
+    <button class="mobile-menu-button" (click)="toggleMobileMenu()" aria-label="Menu" [attr.aria-expanded]="isMobileMenuOpen">
+      <i class="fas" [ngClass]="isMobileMenuOpen ? 'fa-times' : 'fa-bars'" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <!-- Menu mobile déroulant -->
+  <div class="mobile-menu" [ngClass]="{'open': isMobileMenuOpen}">
+    <div class="mobile-nav-links">
+      <a routerLink="/recipes" routerLinkActive="active" (click)="isMobileMenuOpen = false">Recettes</a>
+      <a routerLink="/categories" routerLinkActive="active" (click)="isMobileMenuOpen = false">Catégories</a>
+      <a routerLink="/favorites" routerLinkActive="active" (click)="isMobileMenuOpen = false">Favoris</a>
+      <a routerLink="/about" routerLinkActive="active" (click)="isMobileMenuOpen = false">À propos</a>
+    </div>
+
+    <div class="search-bar mobile-search">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Rechercher une recette..."
+        aria-label="Rechercher une recette"
+      />
+
+      <select [(ngModel)]="selectedCategory" aria-label="Sélectionner une catégorie">
+        <option value="All">Toutes les catégories</option>
+        <option *ngFor="let category of categories" [value]="category">
+          {{ category }}
+        </option>
+      </select>
+
+      <button (click)="search()" aria-label="Rechercher">
+        <i class="fas fa-search" aria-hidden="true"></i> Chercher
+      </button>
+    </div>
   </div>
 </nav>
